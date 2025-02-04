@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-color: #16a34a;
+    --secondary-color: #f3f4f6;
+  }
+
+  body {
+    @apply antialiased text-gray-800;
+  }
+}
+
+@layer components {
+  .dashboard-card {
+    @apply bg-white p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer;
+  }
+
+  .nav-item {
+    @apply w-full flex items-center gap-3 px-6 py-3 text-left transition-all duration-200 relative overflow-hidden;
+  }
+
+  .nav-item::before {
+    content: '';
+    @apply absolute left-0 top-0 h-full w-1 bg-green-600 transform -translate-x-full transition-transform duration-200;
+  }
+
+  .nav-item:hover::before,
+  .nav-item.active::before {
+    @apply translate-x-0;
+  }
+
+  .nav-item:hover {
+    @apply bg-green-50;
+  }
+
+  .nav-item.active {
+    @apply bg-green-50 text-green-600;
+  }
+
+  .stat-card {
+    @apply relative overflow-hidden transition-all duration-300 hover:shadow-lg;
+  }
+
+  .stat-card::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-transparent to-gray-50/30 pointer-events-none;
+  }
+
+  .stat-value {
+    @apply text-2xl font-bold mt-2 transition-all duration-300;
+  }
+
+  .stat-card:hover .stat-value {
+    @apply scale-110 text-green-600;
+  }
+
+  .task-item {
+    @apply flex items-center justify-between p-4 bg-gray-50 rounded-lg transition-all duration-200 hover:bg-gray-100 hover:shadow-md;
+  }
+
+  .sidebar {
+    @apply w-64 bg-white shadow-sm;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      @apply fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 ease-in-out z-30;
+    }
+
+    .sidebar.open {
+      @apply translate-x-0;
+    }
+
+    .sidebar-overlay {
+      @apply fixed inset-0 bg-black/50 z-20 opacity-0 pointer-events-none transition-opacity duration-300;
+    }
+
+    .sidebar-overlay.open {
+      @apply opacity-100 pointer-events-auto;
+    }
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-green-600 text-white hover:bg-green-700 focus:ring-green-500;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400;
+  }
+
+  .chart-container {
+    @apply bg-white p-6 rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg;
+  }
+
+  .chart-container:hover {
+    @apply transform scale-[1.01];
+  }
+} 
