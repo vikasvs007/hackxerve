@@ -10,7 +10,7 @@ export interface Product {
   farmerId: string;
   farmerName: string;
   image?: string;
-  category?: string;
+  category: string;
 }
 
 interface ProductContextType {

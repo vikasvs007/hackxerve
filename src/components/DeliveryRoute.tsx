@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
 
 interface DeliveryRouteProps {
   origin: string;
   destination: string;
 }
 
-const MAPS_API_KEY = 'AlzaSyDKk3hJYmXFdjC2JFfoK23tFoZeu1fut2H';
+const MAPS_API_KEY = 'AlzaSyplubBLrYqUCH-O7Xk_sKMz1sAZTVzizke';
 const API_ENDPOINT = 'https://maps.gomaps.pro/maps/api/directions/json';
 
 const DeliveryRoute: React.FC<DeliveryRouteProps> = ({ origin, destination }) => {

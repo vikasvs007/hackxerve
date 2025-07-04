@@ -10,9 +10,6 @@ const Cart: React.FC = () => {
   const [originAddress, setOriginAddress] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   
-  // For demo purposes, using a fixed farmer location
-  const farmerLocation = "Belgaum, Karnataka, India";
-
   const handleUpdateQuantity = (productId: string, currentQuantity: number, change: number) => {
     const newQuantity = currentQuantity + change;
     if (newQuantity <= 0) {

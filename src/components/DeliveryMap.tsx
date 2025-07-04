@@ -30,7 +30,7 @@ const DeliveryMap: React.FC<DeliveryMapProps> = ({ origin, destination }) => {
             origin
           )}&destination=${encodeURIComponent(
             destination
-          )}&key=AlzaSyDKk3hJYmXFdjC2JFfoK23tFoZeu1fut2H`
+          )}&key=AlzaSyplubBLrYqUCH-O7Xk_sKMz1sAZTVzizke`
         );
 
         if (!response.ok) {

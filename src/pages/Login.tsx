@@ -39,13 +39,6 @@ const Login: React.FC = () => {
     }
   };
 
-  const setTestCredentials = (type: UserType, emailId: string = '') => {
-    console.log('Setting test credentials for:', type);
-    setUserType(type);
-    setEmail(emailId || (type === 'farmer' ? 'farmer@example.com' : 'retailer@example.com'));
-    setPassword('password123');
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">

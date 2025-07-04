@@ -42,8 +42,6 @@ const RetailerDashboard: React.FC = () => {
     }
   ]);
 
-  const [showNewDeliveryForm, setShowNewDeliveryForm] = useState(false);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
@@ -98,7 +96,6 @@ const RetailerDashboard: React.FC = () => {
                   Active Deliveries
                 </h2>
                 <button
-                  onClick={() => setShowNewDeliveryForm(true)}
                   className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors"
                 >
                   <Plus className="w-5 h-5" />

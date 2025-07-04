@@ -22,10 +22,8 @@ import {
   Route,
   TrendingUp
 } from 'lucide-react';
-import { useAuth } from './contexts/AuthContext';
 import VideoCall from './components/VideoCall';
 import FarmMap from './components/FarmMap';
-import ShoppingInterface from './components/ShoppingInterface';
 import NearbyPlacesFinder from './components/NearbyPlacesFinder';
 import SupplyRouteCalculator from './components/SupplyRouteCalculator';
 import ManageProducts from './components/ManageProducts';
@@ -56,7 +54,6 @@ const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, icon, trend
 const FarmerDashboard: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { user } = useAuth();
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: <BarChart3 className="w-5 h-5" /> },

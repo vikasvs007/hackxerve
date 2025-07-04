@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, AlertTriangle, TrendingUp, MapPin, Plus, X, ArrowRight } from 'lucide-react';
+import { Route, AlertTriangle, MapPin, Plus, X, ArrowRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import {
@@ -12,18 +12,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-
-// Predefined distances from Mandya (in km)
-const PREDEFINED_DISTANCES = {
-  "Bangalore": 98,
-  "Mysuru": 45,
-  "Hassan": 85,
-  "Chikkamagaluru": 185,
-  "Tumkur": 155,
-  "Chamarajanagar": 90,
-  "Kodagu": 135,
-  "Ramanagara": 75
-};
 
 interface Destination {
   place: string;
@@ -53,7 +41,7 @@ const SupplyRouteCalculator: React.FC<SupplyRouteCalculatorProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [source, setSource] = useState(initialSource);
-  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [destinations, setDestinations] = useState<Destination[]>(initialDestinations);
   const [totalSupply, setTotalSupply] = useState(initialTotalSupply);
   const [optimizedRoutes, setOptimizedRoutes] = useState<Destination[]>([]);
   const [remainingSupply, setRemainingSupply] = useState(0);

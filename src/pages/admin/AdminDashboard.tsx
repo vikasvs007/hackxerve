@@ -3,7 +3,7 @@ import { useAdmin } from '../../contexts/AdminContext';
 import SupplyRouteCalculator from '../../components/SupplyRouteCalculator';
 
 const AdminDashboard: React.FC = () => {
-  const { inventory, addInventoryItem, updateInventoryItem, deleteInventoryItem, getInventoryStats } = useAdmin();
+  const { inventory, addInventoryItem, deleteInventoryItem, getInventoryStats } = useAdmin();
   const [newItem, setNewItem] = useState({
     name: '',
     quantity: 0,
