@@ -73,11 +73,16 @@ const SupplyRouteCalculator: React.FC<SupplyRouteCalculatorProps> = ({
         throw new Error(`API Error: ${data.status}`);
       }
 
-      // Process the API response
-      const distances = data.rows[0].elements.map((element: any) => ({
-        distance: element.distance.value / 1000, // Convert to km
-        duration: element.duration.text
-      }));
+      // Defensive check for elements
+      const distances = data.rows[0].elements.map((element: any) => {
+        if (element.status !== 'OK' || !element.distance || !element.duration) {
+          return { distance: undefined, duration: undefined };
+        }
+        return {
+          distance: element.distance.value / 1000,
+          duration: element.duration.text
+        };
+      });
 
       return distances;
     } catch (err: any) {
@@ -166,7 +171,7 @@ const SupplyRouteCalculator: React.FC<SupplyRouteCalculatorProps> = ({
   // Update distances when source changes
   useEffect(() => {
     const updateDistances = async () => {
-      if (destinations.length > 0) {
+      if (destinations.length > 0 && source.length > 2) {
         const places = destinations.map(d => d.place);
         const distances = await fetchDistanceMatrix(source, places);
         if (distances) {
@@ -216,78 +221,82 @@ const SupplyRouteCalculator: React.FC<SupplyRouteCalculatorProps> = ({
             <CardTitle>Route Configuration</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {/* Source Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Source Location</label>
-                <input
-                  type="text"
-                  value={source}
-                  onChange={(e) => setSource(e.target.value)}
-                  placeholder="Enter source location"
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              {/* Total Supply Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Total Supply (kg)</label>
-                <input
-                  type="number"
-                  value={totalSupply}
-                  onChange={(e) => setTotalSupply(Number(e.target.value))}
-                  placeholder="Enter total supply"
-                  className="w-full p-2 border rounded"
-                />
-              </div>
-
-              {/* Destinations List */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Destinations</label>
-                <div className="space-y-2">
-                  {destinations.map((dest, idx) => (
-                    <div key={idx} className="flex items-center gap-2 bg-gray-50 p-2 rounded">
-                      <span className="flex-1">{dest.place}</span>
-                      <span className="flex-1">{dest.demand}kg</span>
-                      <span className="flex-1">{dest.distance?.toFixed(1)}km</span>
-                      <span className="flex-1">{dest.duration}</span>
-                      <button
-                        onClick={() => handleRemoveDestination(idx)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
+            <form onSubmit={e => e.preventDefault()}>
+              <div className="space-y-4">
+                {/* Source Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Source Location</label>
+                  <input
+                    type="text"
+                    value={source}
+                    onChange={(e) => setSource(e.target.value)}
+                    placeholder="Enter source location"
+                    className="w-full p-2 border rounded"
+                  />
                 </div>
-              </div>
 
-              {/* New Destination Input */}
-              <div className="grid grid-cols-2 gap-2">
-                <input
-                  type="text"
-                  value={newDestination.place}
-                  onChange={(e) => setNewDestination({ ...newDestination, place: e.target.value })}
-                  placeholder="Destination name"
-                  className="p-2 border rounded"
-                />
-                <input
-                  type="number"
-                  value={newDestination.demand || ""}
-                  onChange={(e) => setNewDestination({ ...newDestination, demand: Number(e.target.value) })}
-                  placeholder="Demand (kg)"
-                  className="p-2 border rounded"
-                />
+                {/* Total Supply Input */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Total Supply (kg)</label>
+                  <input
+                    type="number"
+                    value={totalSupply}
+                    onChange={(e) => setTotalSupply(Number(e.target.value))}
+                    placeholder="Enter total supply"
+                    className="w-full p-2 border rounded"
+                  />
+                </div>
+
+                {/* Destinations List */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Destinations</label>
+                  <div className="space-y-2">
+                    {destinations.map((dest, idx) => (
+                      <div key={idx} className="flex items-center gap-2 bg-gray-50 p-2 rounded">
+                        <span className="flex-1">{dest.place}</span>
+                        <span className="flex-1">{dest.demand}kg</span>
+                        <span className="flex-1">{dest.distance?.toFixed(1)}km</span>
+                        <span className="flex-1">{dest.duration}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveDestination(idx)}
+                          className="text-red-600 hover:text-red-800"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* New Destination Input */}
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    value={newDestination.place}
+                    onChange={(e) => setNewDestination({ ...newDestination, place: e.target.value })}
+                    placeholder="Destination name"
+                    className="p-2 border rounded"
+                  />
+                  <input
+                    type="number"
+                    value={newDestination.demand || ""}
+                    onChange={(e) => setNewDestination({ ...newDestination, demand: Number(e.target.value) })}
+                    placeholder="Demand (kg)"
+                    className="p-2 border rounded"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddDestination}
+                  disabled={!newDestination.place || !newDestination.demand}
+                  className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Destination
+                </button>
               </div>
-              <button
-                onClick={handleAddDestination}
-                disabled={!newDestination.place || !newDestination.demand}
-                className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Add Destination
-              </button>
-            </div>
+            </form>
           </CardContent>
         </Card>
 
